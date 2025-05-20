@@ -1,0 +1,124 @@
+/* Основные стили футера */
+footer {
+    background-color: var(--dark-color);
+    color: white;
+    padding: 3rem 0 2rem;
+    margin-top: auto;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Сетка футера */
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Стили для каждой колонки */
+.footer-column {
+    padding: 0 1rem;
+}
+
+.footer-column h5 {
+    font-size: 1.1rem;
+    margin-bottom: 1.25rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+    color: var(--light-color);
+}
+
+.footer-column h5::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    height: 2px;
+    background: var(--accent-color);
+}
+
+/* Ссылки в футере */
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: var(--transition);
+    width: fit-content;
+}
+
+.footer-links a:hover {
+    color: var(--accent-color);
+    transform: translateX(5px);
+}
+
+/* Стили для реквизитов */
+.footer-requisites {
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.footer-requisites p {
+    margin-bottom: 0.5rem;
+}
+
+.footer-requisites a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+/* Социальные иконки */
+.social-icons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.social-icons a {
+    text-decoration: none !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.social-icons a:hover {
+    background: var(--accent-color);
+    transform: translateY(-3px);
+}
+
+/* Копирайт */
+.footer-copyright {
+    text-align: center;
+    padding-top: 2rem;
+    margin-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .footer-column {
+        padding: 0;
+    }
+
+    .footer-column h5 {
+        margin-bottom: 1rem;
+    }
+}

@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}Главная — Texnoas {% endblock %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Герой-баннер с акцией -->
+    <div class="hero-banner p-5 mb-4 bg-dark text-white rounded-3"
+         style="background: linear-gradient(135deg, #6e8efb, #a777e3);">
+        <div class="container-fluid py-5 text-center">
+            <h1 class="display-5 fw-bold">НОВЫЕ ГАДЖЕТЫ 2024</h1>
+            <p class="fs-4">Скидка 15% на все новинки этой недели</p>
+            <button class="btn btn-light btn-lg" type="button">Посмотреть</button>
+        </div>
+    </div>
+
+    <!-- Категории товаров -->
+    <h2 class="mb-4">Популярные категории</h2>
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="category-card card h-100">
+                <!-- Правильно -->
+                <img src="/media/phones.jpg" width="300" height="400" class="card-img-top" alt="Смартфоны">
+                <div class="card-body">
+                    <h5 class="card-title">Смартфоны</h5>
+                    <p class="card-text">Последние модели от ведущих брендов</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="category-card card h-100">
+                <img src="/media/tabes.jpg" width="300" height="400" class="card-img-top" alt="Планшеты">
+                <div class="card-body">
+                    <h5 class="card-title">Планшеты</h5>
+                    <p class="card-text">Мощные устройства для работы и игр</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="category-card card h-100">
+                <img src="/media/acs.jpg" width="300" height="400" class="card-img-top" alt="Аксессуары">
+                <div class="card-body">
+                    <h5 class="card-title">Аксессуары</h5>
+                    <p class="card-text">Все для ваших устройств</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-none">
+        Количество хитов: {{ bestsellers|length }}
+        {% for p in bestsellers %}
+        {{ p.id }} - {{ p.name }}
+        {% endfor %}
+    </div>
+    <!-- Хиты продаж -->
+    <h2 class="mb-4">Хиты продаж</h2>
+    <div class="row g-4 mb-5">
+        {% for product in bestsellers %}
+        <div class="col-md-3">
+            <div class="card h-100">
+                {% if product.is_new %}
+                <span class="badge bg-success position-absolute top-0 start-0 m-2">Новинка</span>
+                {% endif %}
+                {% if product.discount %}
+                <span class="badge bg-danger position-absolute top-0 end-0 m-2">-{{ product.discount }}%</span>
+                {% endif %}
+
+                <a href="{% url 'product_detail' product.slug %}">
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}"
+                         style="height: 200px; object-fit: contain;">
+                    {% else %}
+                    <img src="https://via.placeholder.com/200?text=No+Image" class="card-img-top" alt="No image">
+                    {% endif %}
+                </a>
+
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">
+                        <a href="{% url 'product_detail' product.slug %}" class="text-decoration-none text-dark">
+                            {{ product.name|truncatechars:30 }}
+                        </a>
+                    </h5>
+                    <div class="mt-auto">
+                        {% if product.old_price %}
+                        <p class="text-muted mb-1"><s>{{ product.old_price }} ₽</s></p>
+                        {% endif %}
+                        <p class="fw-bold mb-3">{{ product.price }} ₽</p>
+                        <button class="btn btn-primary w-100 add-to-cart"
+                                data-url="{% url 'cart:cart_add' product.id %}">
+                            <i class="fas fa-shopping-cart me-1"></i> В корзину
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-warning">Хиты продаж скоро появятся!</div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+    <!-- Преимущества -->
+    <div class="row features mb-5 text-center">
+        <div class="col-md-3">
+            <div class="p-3">
+                <i class="bi bi-truck fs-1 text-primary"></i>
+                <h5>Быстрая доставка</h5>
+                <p>От 1 дня по всей стране</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="p-3">
+                <i class="bi bi-shield-check fs-1 text-primary"></i>
+                <h5>Гарантия качества</h5>
+                <p>Официальная гарантия</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="p-3">
+                <i class="bi bi-arrow-repeat fs-1 text-primary"></i>
+                <h5>Легкий возврат</h5>
+                <p>14 дней на возврат</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="p-3">
+                <i class="bi bi-headset fs-1 text-primary"></i>
+                <h5>Поддержка 24/7</h5>
+                <p>Всегда на связи</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Новости и акции -->
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <div class="p-4 bg-light rounded">
+                <h3>Новости</h3>
+                <p>Подпишитесь на рассылку и получите скидку 10% на первый заказ!</p>
+                <form class="d-flex">
+                    <input type="email" class="form-control me-2" placeholder="Ваш email">
+                    <button class="btn btn-success">Подписаться</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-4 bg-primary text-white rounded">
+                <h3>Акции</h3>
+                <p>Специальное предложение: 2 аксессуара по цене 1!</p>
+                <button class="btn btn-light">Узнать больше</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

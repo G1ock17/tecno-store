@@ -1,0 +1,52 @@
+.filters-column {
+    width: 300px;
+    min-width: 300px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 80px; /* настраиваемая высота, чтобы не залипало под хедер */
+    align-self: flex-start; /* важное свойство, если используется flex */
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+@media (max-width: 1200px) {
+    .products-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (max-width: 992px) {
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 576px) {
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+}
+.filters-column {
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+.add-to-cart,
+.product-view-btn {
+    height: 42px;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+}
+
+/* Кнопка со стрелкой — фиксированная ширина */
+.product-view-btn {
+    width: 42px;
+    padding: 0;
+}

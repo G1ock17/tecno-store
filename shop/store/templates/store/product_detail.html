@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} | Магазин</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="{% static 'css/product.css' %}" rel="stylesheet">
+</head>
+
+<body>
+<div class="container py-5">
+    <div class="row product-header p-4 mb-5">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+            <!-- Десктопная версия с превью -->
+            <div class="carousel-desktop">
+                <div class="product-gallery-container mb-3">
+                    <div class="product-gallery-main">
+                        {% if product.images.all %}
+                        <img id="main-image" src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
+                        {% elif product.image %}
+                        <img id="main-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% else %}
+                        <div class="d-flex align-items-center justify-content-center h-100">
+                            <i class="fas fa-image fa-5x text-muted"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if product.images.all.count > 1 %}
+                <div class="product-thumbnails">
+                    {% for image in product.images.all %}
+                    <div class="thumbnail {% if forloop.first %}active{% endif %}"
+                         onclick="changeMainImage('{{ image.image.url }}', this)">
+                        <img src="{{ image.image.url }}" alt="{{ product.name }} thumbnail {{ forloop.counter }}">
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Мобильная версия с каруселью -->
+            <div class="carousel-mobile">
+                <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner product-gallery-container">
+                        {% if product.images.all %}
+                        {% for image in product.images.all %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <img src="{{ image.image.url }}"
+                                 class="img-fluid rounded d-block w-100 h-100 object-fit-contain"
+                                 alt="{{ product.name }}">
+                        </div>
+                        {% endfor %}
+                        {% elif product.image %}
+                        <div class="carousel-item active">
+                            <img src="{{ product.image.url }}" class="d-block w-100 h-100 object-fit-contain"
+                                 alt="{{ product.name }}">
+                        </div>
+                        {% else %}
+                        <div class="carousel-item active d-flex align-items-center justify-content-center h-100">
+                            <i class="fas fa-image fa-5x text-muted"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% if product.images.all.count > 1 %}
+                    <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#productCarousel"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                    <span class="badge badge-category mb-2">{{ product.category.name }}</span>
+                    <h1 class="mb-3">{{ product.name }}</h1>
+                </div>
+                <a href="{% url 'store:product_list' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i> Назад
+                </a>
+            </div>
+
+            <div class="d-flex align-items-center mb-4">
+                <span class="product-price me-3">{{ product.price }} ₽</span>
+                {% if product.old_price %}
+                <span class="text-muted text-decoration-line-through me-2">{{ product.old_price }} ₽</span>
+                <span class="badge bg-danger">-{{ product.discount_percentage }}%</span>
+                {% endif %}
+            </div>
+
+            <div class="d-grid gap-3 d-md-block mb-4">
+                <button class="btn btn-primary me-md-2 mb-2 mb-md-0 add-to-cart"
+                        data-url="{% url 'cart:cart_add' product.id %}">
+                    <i class="fas fa-shopping-cart me-2"></i>Добавить в корзину
+                </button>
+                <button class="btn btn-outline-secondary">
+                    <i class="far fa-heart me-2"></i>В избранное
+                </button>
+            </div>
+
+            <div class="product-meta mb-4">
+                <div class="mb-2"><i class="fas fa-box-open"></i> <strong>Доступность:</strong> В наличии</div>
+                <div class="mb-2"><i class="fas fa-truck"></i> <strong>Доставка:</strong> 1-3 рабочих дня</div>
+                <div><i class="fas fa-shield-alt"></i> <strong>Гарантия:</strong> 12 месяцев</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="product-description mb-5">
+                <h3 class="mb-4">Описание товара</h3>
+                <p class="mb-0">{{ product.description }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Добавьте этот скрытый контейнер для корзины -->
+<div id="cart-container"
+     data-cart-detail-url="{% url 'cart:cart_detail' %}"
+     data-cart-add-url="{% url 'cart:cart_add' product.id %}"
+     style="display: none;"></div>
+<script src="{% static 'js/cart.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Функция для смены основного изображения при клике на превью
+    function changeMainImage(imageUrl, element) {
+      document.getElementById('main-image').src = imageUrl;
+
+      // Удаляем класс active у всех превью
+      document.querySelectorAll('.thumbnail').forEach(thumb => {
+        thumb.classList.remove('active');
+      });
+
+      // Добавляем класс active к текущему превью
+      element.classList.add('active');
+    }
+
+
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap');
+
+:root {
+    --primary-color: #4361ee;
+    --secondary-color: #3f37c9;
+    --accent-color: #f72585;
+    --dark-color: #1a1a2e;
+    --light-color: #f8f9fa;
+    --transition: all 0.3s ease;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f5f7fa;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+h1, h2, h3 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--dark-text);
+    font-weight: 600;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin: 2rem 0 1.5rem;
+    text-align: center;
+    color: var(--primary-color);
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: var(--accent-color);
+    border-radius: 2px;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin: 2.5rem 0 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--secondary-color);
+}
+
+h3 {
+    font-size: 1.4rem;
+    margin: 1.8rem 0 1rem;
+    color: var(--primary-color);
+}
+
+.company-info {
+    background-color: white;
+    padding: 1.8rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 2.5rem;
+    box-shadow: var(--box-shadow);
+    border-left: 5px solid var(--primary-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.company-info:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--box-shadow-hover);
+}
+
+.company-info h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+.company-info p {
+    margin: 0.8rem 0;
+}
+
+.delivery-method {
+    margin-bottom: 2.5rem;
+    padding: 1.8rem;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-top: 3px solid var(--secondary-color);
+}
+
+.delivery-method:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--box-shadow-hover);
+}
+
+.payment-method {
+    margin-bottom: 2rem;
+    padding: 1.8rem;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-top: 3px solid var(--accent-color);
+}
+
+.payment-method:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--box-shadow-hover);
+}
+
+ul {
+    padding-left: 1.5rem;
+    margin: 1rem 0;
+}
+
+li {
+    margin-bottom: 0.8rem;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+li::before {
+    content: '•';
+    color: var(--accent-color);
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+ul ul {
+    margin: 0.5rem 0;
+    padding-left: 1rem;
+}
+
+ul ul li::before {
+    content: '◦';
+    color: var(--secondary-color);
+}
+
+.highlight {
+    background-color: rgba(255, 126, 51, 0.15);
+    padding: 0.2rem 0.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    border-radius: 4px;
+}
+
+.note {
+    font-size: 0.9rem;
+    color: var(--light-text);
+    font-style: italic;
+    margin-top: 1rem;
+    padding-left: 1rem;
+    border-left: 3px solid #e2e8f0;
+}
+
+strong {
+    color: var(--dark-text);
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 0 15px 30px;
+    }
+
+    h1 {
+        font-size: 2rem;
+        margin: 1.5rem 0 1rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        margin: 2rem 0 1.2rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+    }
+
+    .company-info,
+    .delivery-method,
+    .payment-method {
+        padding: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.7rem;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+    }
+}
